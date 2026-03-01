@@ -1,0 +1,18 @@
+# VS Code configuration directory
+/.vscode*
+
+# Build directory
+/build*
+
+# Output directory
+/output*
+/out*
+/dist*
+/*-info*
+
+# pycache
+__pycache__
+
+# Temporary files
+/tmp*
+/temp*
