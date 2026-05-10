@@ -47,12 +47,14 @@ class Logger:
     DEBUG    = logging.DEBUG
     NOTSET   = logging.NOTSET
 
-    __logger   : Optional[logging.Logger] = None
-    __name     : str                      = "default_logger"
-    __log_file : str                      = ""
-    __level    : int                      = INFO
-    __format   : str                      = "[%(asctime)s.%(msecs)03d] [%(levelname)-8s] %(message)s"
-    __datefmt  : str                      = '%Y-%m-%d %H:%M:%S'
+    __logger          : Optional[logging.Logger] = None
+    __name            : str                      = "default_logger"
+    __log_file        : str                      = ""
+    __level           : int                      = INFO
+    __format          : str                      = "[%(asctime)s.%(msecs)03d] [%(levelname)-8s] %(message)s"
+    __datefmt         : str                      = '%Y-%m-%d %H:%M:%S'
+    __handlers        : list[logging.Handler]    = []
+    __console_enabled : bool                     = True
 
     @classmethod
     def setup(cls,
@@ -79,6 +81,31 @@ class Logger:
         cls.__logger   = None
 
     @classmethod
+    def console_enable(cls, enable: bool) -> None:
+        """Enable/disable console logging."""
+        cls.__console_enabled = enable
+
+    @classmethod
+    def add_handler(cls, handler: logging.Handler) -> None:
+        """Add a handler to the logger."""
+        try:
+            if not (handler in cls.__handlers):
+                cls.__handlers.append(handler)
+        finally:
+            if cls.__logger:
+                cls.__logger.addHandler(handler)
+
+    @classmethod
+    def remove_handler(cls, handler: logging.Handler) -> None:
+        """Remove a handler from the logger."""
+        try:
+            if handler in cls.__handlers:
+                cls.__handlers.remove(handler)
+        finally:
+            if cls.__logger:
+                cls.__logger.removeHandler(handler)
+
+    @classmethod
     def __init_logger(cls) -> None:
         """Initialize the underlying logger (create handlers, set formatter)."""
         if cls.__logger is None:
@@ -88,15 +115,20 @@ class Logger:
             for handler in cls.__logger.handlers[:]:
                 cls.__logger.removeHandler(handler)
 
-            formatter       : logging.Formatter     = logging.Formatter(fmt=cls.__format, datefmt=cls.__datefmt)
-            console_handler : logging.StreamHandler = logging.StreamHandler()
-            console_handler.setFormatter(formatter)
-            cls.__logger.addHandler(console_handler)
+            formatter : logging.Formatter = logging.Formatter(fmt=cls.__format, datefmt=cls.__datefmt)
+
+            if cls.__console_enabled:
+                console_handler : logging.StreamHandler = logging.StreamHandler()
+                console_handler.setFormatter(formatter)
+                cls.__logger.addHandler(console_handler)
 
             if cls.__log_file:
                 file_handler : logging.FileHandler = logging.FileHandler(cls.__log_file, encoding="utf-8")
                 file_handler.setFormatter(formatter)
                 cls.__logger.addHandler(file_handler)
+
+            for handler in cls.__handlers:
+                cls.__logger.addHandler(handler)
 
     @classmethod
     def __log(cls, level: str, *args: Any, **kwargs: Any) -> None:
