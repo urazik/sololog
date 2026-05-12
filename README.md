@@ -23,7 +23,7 @@ Copy the `Logger` class from this repository into your own Python file. It requi
 
 1. Create a `setup.py` file (see example below).
 2. Run `python setup.py bdist_wheel` to generate a `.whl` file in the `dist/` directory.
-3. Install the wheel with `pip install dist/BLog-0.1.0-py3-none-any.whl`.
+3. Install the wheel with `pip install dist/BLog-0.2.0-py3-none-any.whl`.
 
 ## Usage
 
@@ -105,10 +105,10 @@ Then run:
 python setup.py bdist_wheel
 ```
 
-The wheel file will be created in the `dist/BLog-0.1.0-py3-none-any.whl` folder. Install it with:
+The wheel file will be created in the `dist/BLog-0.2.0-py3-none-any.whl` folder. Install it with:
 
 ```bash
-python -m pip install dist/BLog-0.1.0-py3-none-any.whl
+python -m pip install dist/BLog-0.2.0-py3-none-any.whl
 ```
 
 ## Dependencies
