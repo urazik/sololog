@@ -47,22 +47,24 @@ class Logger:
     DEBUG    = logging.DEBUG
     NOTSET   = logging.NOTSET
 
-    __logger          : Optional[logging.Logger] = None
-    __name            : str                      = "default_logger"
-    __log_file        : str                      = ""
-    __level           : int                      = INFO
-    __format          : str                      = "[%(asctime)s.%(msecs)03d] [%(levelname)-8s] %(message)s"
-    __datefmt         : str                      = '%Y-%m-%d %H:%M:%S'
-    __handlers        : list[logging.Handler]    = []
-    __console_enabled : bool                     = True
+    __logger          : Optional[logging.Logger]  = None
+    __name            : str                       = "default_logger"
+    __log_file        : str                       = ""
+    __level           : int                       = INFO
+    __format          : str                       = "[%(asctime)s.%(msecs)03d] [%(levelname)-8s] %(message)s"
+    __datefmt         : str                       = '%Y-%m-%d %H:%M:%S'
+    __handlers        : list[logging.Handler]     = []
+    __console_enabled : bool                      = True
+    __console_handler : Optional[logging.Handler] = None
 
     @classmethod
     def setup(cls,
-              name     : str = "default_logger",
-              log_file : str = "",
-              level    : int = INFO,
-              format   : str = "[%(asctime)s] [%(levelname)-8s] %(message)s",
-              datefmt  : str = '%Y-%m-%d %H:%M:%S') -> None:
+              name           : str = "default_logger",
+              log_file       : str = "",
+              level          : int = INFO,
+              format         : str = "[%(asctime)s] [%(levelname)-8s] %(message)s",
+              datefmt        : str = '%Y-%m-%d %H:%M:%S',
+              console_enable : bool = True) -> None:
         """
         Configure logger parameters.
 
@@ -72,18 +74,32 @@ class Logger:
             level: Logging level (e.g., logging.DEBUG, logging.INFO,... or Logger.DEBUG, Logger.INFO,...).
             format: Log message format (see logging.Formatter documentation).
             datefmt: Date/time format (see time.strftime documentation).
+            console_enable: Enable/disable console logging.
         """
-        cls.__name     = name
-        cls.__log_file = log_file
-        cls.__level    = level
-        cls.__format   = format
-        cls.__datefmt  = datefmt
-        cls.__logger   = None
+        cls.__name            = name
+        cls.__log_file        = log_file
+        cls.__level           = level
+        cls.__format          = format
+        cls.__datefmt         = datefmt
+        cls.__logger          = None
+        cls.__console_enabled = console_enable
+        cls.__console_handler = None
 
     @classmethod
-    def console_enable(cls, enable: bool) -> None:
+    def console_enable(cls, enable: bool = True) -> None:
         """Enable/disable console logging."""
-        cls.__console_enabled = enable
+        if cls.__console_enabled != enable:
+            cls.__console_enabled = enable
+            if cls.__logger:
+                if cls.__console_enabled:
+                    cls.__logger.addHandler(cls.__console_handler)
+                else:
+                    cls.__logger.removeHandler(cls.__console_handler)
+
+    @classmethod
+    def console_disable(cls, disable: bool = True) -> None:
+        """Enable/disable console logging."""
+        cls.console_enable(not disable)
 
     @classmethod
     def add_handler(cls, handler: logging.Handler) -> None:
@@ -117,10 +133,10 @@ class Logger:
 
             formatter : logging.Formatter = logging.Formatter(fmt=cls.__format, datefmt=cls.__datefmt)
 
+            cls.__console_handler : logging.StreamHandler = logging.StreamHandler()
+            cls.__console_handler.setFormatter(formatter)
             if cls.__console_enabled:
-                console_handler : logging.StreamHandler = logging.StreamHandler()
-                console_handler.setFormatter(formatter)
-                cls.__logger.addHandler(console_handler)
+                cls.__logger.addHandler(cls.__console_handler)
 
             if cls.__log_file:
                 file_handler : logging.FileHandler = logging.FileHandler(cls.__log_file, encoding="utf-8")

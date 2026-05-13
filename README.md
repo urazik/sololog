@@ -78,13 +78,13 @@ Logger.critical('Shutting down')
 
 Configure the logger. Can be called only once; subsequent calls reset the logger.
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `name` | `str` | `"default_logger"` | Logger name |
-| `log_file` | `str` | `""` | Path to log file (empty = console only) |
-| `level` | `int` | `Logger.INFO` | Logging level (e.g., `Logger.DEBUG` or `logging.DEBUG`) |
-| `format` | `str` | `"[%(asctime)s] [%(levelname)-8s] %(message)s"` | Log message format |
-| `datefmt` | `str` | `'%Y-%m-%d %H:%M:%S'` | Date/time format |
+| Parameter  | Type  | Default                                         | Description                                             |
+| ---------- | ----- | ----------------------------------------------- | ------------------------------------------------------- |
+| `name`     | `str` | `"default_logger"`                              | Logger name                                             |
+| `log_file` | `str` | `""`                                            | Path to log file (empty = console only)                 |
+| `level`    | `int` | `Logger.INFO`                                   | Logging level (e.g., `Logger.DEBUG` or `logging.DEBUG`) |
+| `format`   | `str` | `"[%(asctime)s] [%(levelname)-8s] %(message)s"` | Log message format                                      |
+| `datefmt`  | `str` | `'%Y-%m-%d %H:%M:%S'`                           | Date/time format                                        |
 
 ### Logging methods
 
@@ -105,10 +105,10 @@ Then run:
 python setup.py bdist_wheel
 ```
 
-The wheel file will be created in the `dist/BLog-0.2.0-py3-none-any.whl` folder. Install it with:
+The wheel file will be created in the `dist/BLog-0.2.1-py3-none-any.whl` folder. Install it with:
 
 ```bash
-python -m pip install dist/BLog-0.2.0-py3-none-any.whl
+python -m pip install --force-reinstall dist/BLog-0.2.1-py3-none-any.whl
 ```
 
 ## Dependencies
