@@ -1,4 +1,4 @@
-# BLog
+# Solo log
 
 A flexible Python logger class that automatically prefixes messages with the class name when an object is provided, while supporting both object-oriented and simple string logging with full compatibility with the standard `logging` module's formatting and extra arguments.
 
@@ -13,24 +13,48 @@ A flexible Python logger class that automatically prefixes messages with the cla
 
 ## Installation
 
-You can either copy the `Logger` class directly into your project or build a distributable wheel.
+Clone this repository and navigate into the project directory.
+```bash
+git clone https://github.com/urazik/sololog.git
+cd sololog
+```
+
+After that, you can either copy the `Logger` class directly into your project, build a distributable wheel and install it, or install from the repository.
 
 ### Direct use
 
 Copy the `Logger` class from this repository into your own Python file. It requires only the standard library.
 
-### Build a wheel
+### Wheel use
 
-1. Create a `setup.py` file (see example below).
-2. Run `python setup.py bdist_wheel` to generate a `.whl` file in the `dist/` directory.
-3. Install the wheel with `pip install dist/BLog-0.2.0-py3-none-any.whl`.
+Install build (if missing):
+```bash
+python -m pip install build
+```
+
+Build `.whl` file in the `dist/` directory:
+```bash
+python -m build
+```
+
+Install the wheel:
+```bash
+python -m pip install --force-reinstall dist/sololog-0.2.1-py3-none-any.whl
+```
+
+### Install from the repository
+
+Install:
+```bash
+python -m pip install --force-reinstall .
+```
 
 ## Usage
 
 ### 1. Configure the logger (once)
 
 ```python
-from BLog import Logger
+from sololog import Logger
 
 Logger.setup(
     name='my_app',
@@ -96,20 +120,6 @@ All methods support the two call styles described above and accept any `*args` a
 - `error(*args, **kwargs)`
 - `critical(*args, **kwargs)`
 - `exception(*args, **kwargs)`
-
-## Building a Package
-
-Then run:
-
-```bash
-python setup.py bdist_wheel
-```
-
-The wheel file will be created in the `dist/BLog-0.2.1-py3-none-any.whl` folder. Install it with:
-
-```bash
-python -m pip install --force-reinstall dist/BLog-0.2.1-py3-none-any.whl
-```
 
 ## Dependencies
 

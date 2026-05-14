@@ -1,18 +1,32 @@
-# VS Code configuration directory
+# VS Code configuration
 /.vscode*
 
-# Build directory
-/build*
-
-# Output directory
-/output*
-/out*
-/dist*
+# Python
+__pycache__*
+*.py[codz]
+*$py.class*
+.installed.cfg*
+*.egg-info*/
+*.egg*
+/requirements.txt*
 /*-info*
 
-# pycache
-__pycache__
+# Build
+/build*
+/dist*
+/wheels*
 
-# Temporary files
+# Output
+/out*
+
+# Temporary
 /tmp*
 /temp*
+/dump*
+
+# Environments
+.env*
+.envrc*
+.venv*
+/env*
+/venv*

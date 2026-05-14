@@ -1,0 +1,25 @@
+[build-system]
+requires = [
+    "setuptools>=61.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sololog"
+version = "0.2.1"
+description = "A logger class supporting two call styles and automatic class name prefixing"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+    { name  = "Anton Urazov", email = "dev.urazov@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/urazik/sololog"
+"Bug Tracker" = "https://github.com/urazik/sololog/issues"
